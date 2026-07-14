@@ -18,7 +18,14 @@ namespace ImagesToPdf
         static string logFilePath;
         static void Main(string[] args)
         {
+            string rootPath = null;
+            string outputParentPath = null;
 
+            if (args.Length == 0)
+            {
+                //Log("Please provide necessary arguments.");
+                return;
+            }
         }
     }
 }
