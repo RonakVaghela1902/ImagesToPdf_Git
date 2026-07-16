@@ -23,7 +23,8 @@ namespace ImagesToPdf
 
             if (args.Length == 0)
             {
-                //Log("Please provide necessary arguments.");
+                //Log("Please provide necessary arguments."
+				Console.WriteLine("Please provide necessary arguments.");
                 return;
             }
         }
