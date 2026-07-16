@@ -4,27 +4,35 @@ on:
   push:
     branches:
       - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
 
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.x'
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
 
-      - name: Restore packages
-        run: dotnet restore
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v2
 
-      - name: Build project
-        run: dotnet build --configuration Release --no-restore
+      - name: Restore NuGet packages
+        run: nuget restore ImagesToPdf.sln
 
-      - name: Run tests
-        run: dotnet test --no-build
+      - name: Build Solution
+        run: |
+          msbuild ImagesToPdf.sln ^
+            /p:Configuration=Release ^
+            /p:Platform="Any CPU"
+
+      - name: Display Build Output
+        run: |
+          dir ImagesToPdf\bin\Release
